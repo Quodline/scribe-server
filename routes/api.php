@@ -20,6 +20,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
-
+    Route::apiResource('posts', PostController::class);
 });
-Route::apiResource('posts', PostController::class);
