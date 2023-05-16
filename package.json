@@ -1,0 +1,10 @@
+{
+    "devDependencies": {
+        "husky": "4"
+    },
+    "husky": {
+        "hooks": {
+            "pre-push": "php artisan test"
+        }
+    }
+}

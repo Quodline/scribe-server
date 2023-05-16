@@ -30,15 +30,17 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-        ]);
+        ], 201);
     }
 
     public function login(Request $request): JsonResponse
     {
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'Invalid login details'
-            ], 401);
+                'errors' => [
+                    'email' => ['Credentials do not match any records']
+                ]
+            ], 422);
         }
 
         $user = User::where('email', $request['email'])->firstOrFail();
