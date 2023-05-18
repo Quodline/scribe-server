@@ -10,7 +10,7 @@ class Kernel extends HttpKernel
 {
     public function __construct(Application $app, Router $router ) {
         parent::__construct( $app, $router );
-        $this->prependToMiddlewarePriority(\App\Http\Middleware\JsonResponseMiddleware::class);
+        $this->prependToMiddlewarePriority(\App\Http\Middleware\ForceJsonResponse::class);
     }
 
     /**
@@ -70,6 +70,6 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
-        'json.response' => \App\Http\Middleware\JsonResponseMiddleware::class,
+        'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
     ];
 }

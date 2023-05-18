@@ -10,7 +10,6 @@ class PostTest extends TestCase
 {
     use RefreshDatabase;
 
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -24,6 +23,21 @@ class PostTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonIsArray();
+    }
+
+    public function test_new_user_has_no_posts(): void
+    {
+        $response = $this->actingAs($this->user)->get('/api/posts?filter=user');
+
+        $response->assertOk();
+        $response->assertExactJson([]);
+    }
+
+    public function test_gives_error_when_invalid_filter_is_applied(): void
+    {
+        $response = $this->actingAs($this->user)->get('/api/posts?filter=invalid');
+
+        $response->assertUnprocessable();
     }
 
     public function test_unauthenticated_users_cannot_fetch_posts(): void

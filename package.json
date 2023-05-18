@@ -4,7 +4,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-push": "php artisan test"
+            "pre-push": "sail artisan test"
         }
     }
 }
