@@ -46,9 +46,9 @@ class PostController extends Controller
             'text_content' => 'required|string',
         ]);
 
-        $request->user()->posts()->create($validated);
+        $post = $request->user()->posts()->create($validated);
 
-        return response()->json(null, 201);
+        return response()->json($post, 201);
     }
 
     /**

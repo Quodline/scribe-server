@@ -1,0 +1,151 @@
+openapi: 3.1.0
+info:
+  title:  Scribe REST API
+  description: |
+    This API allows writing down marks on a Tic Tac Toe board
+    and requesting the state of the board or of individual squares.
+  version: 0.0.1
+paths:
+  /api/register:
+    post:
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  $ref: "#/components/schemas/name"
+                email:
+                  $ref: "#/components/schemas/email"
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/token_response"
+  /api/login:
+    post:
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  $ref: "#/components/schemas/name"
+                email:
+                  $ref: "#/components/schemas/email"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/token_response"
+  /api/user:
+    get:
+      summary: Get auth user
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+  /api/posts:
+    get:
+      summary: All user posts
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/post"
+    post:
+      summary: Create post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text_content:
+                  type: string
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/post"
+components:
+  schemas:
+    id:
+      type: integer
+      minimum: 1
+      example: 342
+    name:
+      type: string
+      description: Full name
+      example: John
+    email:
+      type: string
+      example: john@example.com
+    access_token:
+      type: string
+      example: 1|nywRLBmtwekJC96faiggewR2nJPqcC5QGY7VKShi
+    token_type:
+      type: string
+      example: Bearer
+    token_response:
+      type: object
+      properties:
+        access_token:
+          $ref: "#/components/schemas/access_token"
+        token_type:
+          $ref: "#/components/schemas/token_type"
+    date:
+      type: string
+      example: "2023-08-13T12:44:23.000000Z"
+    user:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        name:
+          $ref: "#/components/schemas/name"
+        email:
+          $ref: "#/components/schemas/email"
+        email_verified_at:
+          $ref: "#/components/schemas/date"
+        created_at:
+          $ref: "#/components/schemas/date"
+        updated_at:
+          $ref: "#/components/schemas/date"
+    post:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: '99e17860-bd24-40f5-a55a-151674ba30f6'
+        user_id:
+          $ref: '#/components/schemas/id'
+        text_content:
+          type: string
+        created_at:
+          $ref: "#/components/schemas/date"
+        updated_at:
+          $ref: "#/components/schemas/date"
+        user:
+          $ref: "#/components/schemas/user"
